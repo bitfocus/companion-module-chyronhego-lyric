@@ -1,3 +1,3 @@
-## Your module
+## Chyron-Hego Intelligent Interface
 
-Write some help for your users here!
+Control Chyron Hego Lyric CG machines with the Intelligent Interface protocol.
