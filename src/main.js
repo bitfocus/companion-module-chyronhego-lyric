@@ -4,21 +4,16 @@ import { UpdateActions } from './actions.js'
 import { UpdateFeedbacks } from './feedbacks.js'
 import { UpdateVariableDefinitions } from './variables.js'
 import * as config from './config.js'
+import * as tcp from './tcp.js'
 
 class IntelligentInterface extends InstanceBase {
 	constructor(internal) {
 		super(internal)
-		Object.assign(this, { ...config })
+		Object.assign(this, { ...config, ...tcp })
 	}
 
 	async init(config) {
-		this.config = config
-
-		this.updateStatus(InstanceStatus.Ok)
-
-		this.updateActions() // export actions
-		this.updateFeedbacks() // export feedbacks
-		this.updateVariableDefinitions() // export variable definitions
+		this.configUpdated(config)
 	}
 	// When module gets deleted
 	async destroy() {
@@ -27,6 +22,11 @@ class IntelligentInterface extends InstanceBase {
 
 	async configUpdated(config) {
 		this.config = config
+		this.updateStatus(InstanceStatus.Connecting)
+		this.updateActions() // export actions
+		this.updateFeedbacks() // export feedbacks
+		this.updateVariableDefinitions() // export variable definitions
+		this.initTCP(this.config.host, this.config.port)
 	}
 
 	updateActions() {
