@@ -1,4 +1,4 @@
-import { keep_alive_timeout } from './consts'
+import { keep_alive_timeout } from './consts.js'
 
 export function startKeepAlive() {
 	if (this.keepAliveTimer) {

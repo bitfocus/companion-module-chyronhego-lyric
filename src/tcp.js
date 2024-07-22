@@ -2,6 +2,9 @@ import { InstanceStatus, TCPHelper } from '@companion-module/base'
 import { cmd, EOL } from './consts.js'
 
 export function queryOnConnect() {
+	if (this.config.verbose) {
+		this.log('debug', `queryOnConnect`)
+	}
 	//function to make initial queries and start message command queue
 	this.subscribeActions()
 	this.subscribeFeedbacks()
@@ -11,29 +14,34 @@ export function queryOnConnect() {
 export function sendCommand(msg) {
 	if (msg !== undefined) {
 		if (this.socket !== undefined && this.socket.isConnected) {
-			this.log('debug', `Sending message: ${msg}`)
+			if (this.config.verbose) {
+				this.log('debug', `Sending message: ${msg}`)
+			}
 			this.socket.send(msg + cmd.eom + EOL)
 			this.startKeepAlive()
 		} else {
-			this.log('warn', `Socket not connected, tried to send: ${msg}`)
+			this.log('warn', `sendCommand: Socket not connected, tried to send: ${msg}`)
 		}
 	} else {
-		this.log('warn', 'Command undefined')
+		this.log('warn', 'sendCommand: Command undefined')
 	}
 	return undefined
 }
 
 export function initTCP(host, port) {
-	this.log('debug', 'initTCP')
+	if (this.config.verbose) {
+		this.log('debug', 'initTCP')
+	}
 	if (this.socket !== undefined) {
 		this.stopKeepAlive()
 		this.socket.destroy()
 		delete this.socket
 	}
 	if (host !== undefined && !isNaN(port)) {
-		this.log('debug', 'Creating New Socket')
-
-		this.updateStatus(`Connecting to Lyric: ${host}:${port}`)
+		if (this.config.verbose) {
+			this.log('debug', 'Creating New Socket')
+		}
+		this.updateStatus(InstanceStatus.Connecting, `Connecting to Lyric: ${host}:${port}`)
 		this.socket = new TCPHelper(host, port)
 
 		this.socket.on('status_change', (status, message) => {

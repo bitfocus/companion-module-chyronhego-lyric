@@ -1,4 +1,4 @@
-import { actionOptions, cmd } from './consts'
+import { actionOptions, cmd } from './consts.js'
 
 export async function UpdateActions(self) {
 	let actionDefinitions = []
@@ -14,12 +14,20 @@ export async function UpdateActions(self) {
 		name: 'Read Message',
 		options: [actionOptions.readBuffer, actionOptions.readMessage, actionOptions.readDisplayMode],
 		callback: async ({ options }) => {
-			const msg = parseInt(await self.parseVariablesInString(options.readMessage))
+			const msg = parseInt(await self.parseVariablesInString(options.message))
 			if (isNaN(msg) || msg < 0) {
 				self.log('warn', `Invalid Message Number ${msg} From: ${options.message}`)
 				return undefined
 			}
 			self.sendCommand(cmd.read + options.buffer + cmd.sep + msg + cmd.sep + options.mode)
+		},
+	}
+	actionDefinitions['customMessage'] = {
+		name: 'Custom Message',
+		options: [actionOptions.customMessage],
+		callback: async ({ options }) => {
+			const msg = await self.parseVariablesInString(options.message)
+			self.sendCommand(msg)
 		},
 	}
 	self.setActionDefinitions(actionDefinitions)
