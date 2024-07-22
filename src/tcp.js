@@ -1,16 +1,39 @@
 import { InstanceStatus, TCPHelper } from '@companion-module/base'
-import { EOL } from './consts.js'
+import { cmd, EOL } from './consts.js'
+
+export function queryOnConnect() {
+	//function to make initial queries and start message command queue
+	this.subscribeActions()
+	this.subscribeFeedbacks()
+	this.startKeepAlive()
+}
+
+export function sendCommand(msg) {
+	if (msg !== undefined) {
+		if (this.socket !== undefined && this.socket.isConnected) {
+			this.log('debug', `Sending message: ${msg}`)
+			this.socket.send(msg + cmd.eom + EOL)
+			this.startKeepAlive()
+		} else {
+			this.log('warn', `Socket not connected, tried to send: ${msg}`)
+		}
+	} else {
+		this.log('warn', 'Command undefined')
+	}
+	return undefined
+}
 
 export function initTCP(host, port) {
 	this.log('debug', 'initTCP')
 	if (this.socket !== undefined) {
+		this.stopKeepAlive()
 		this.socket.destroy()
 		delete this.socket
 	}
 	if (host !== undefined && !isNaN(port)) {
 		this.log('debug', 'Creating New Socket')
 
-		this.updateStatus(`Connecting to lyric: ${host}:${port}`)
+		this.updateStatus(`Connecting to Lyric: ${host}:${port}`)
 		this.socket = new TCPHelper(host, port)
 
 		this.socket.on('status_change', (status, message) => {
@@ -24,15 +47,15 @@ export function initTCP(host, port) {
 		this.socket.on('connect', () => {
 			this.log('info', `Connected to ${host}:${port}`)
 			this.updateStatus(InstanceStatus.Ok, 'Connected')
-			this.cmdQueue = []
-			this.clearToTx = true
+			//this.cmdQueue = []
+			//this.clearToTx = true
 			this.receiveBuffer = Buffer.from('')
 			this.queryOnConnect()
-			this.clearToTxTimeout()
+			//this.clearToTxTimeout()
 		})
 		this.socket.on('data', (chunk) => {
 			//console.log (`Chunk Recieved: ${chunk}`)
-			this.clearToTxTimeout()
+			//this.clearToTxTimeout()
 			let i = 0,
 				line = '',
 				offset = 0
@@ -40,7 +63,7 @@ export function initTCP(host, port) {
 			while ((i = this.receiveBuffer.indexOf(EOL, offset)) !== -1) {
 				line = this.receiveBuffer.substring(offset, i)
 				offset = i + 2
-				this.processResponse(line.toString())
+				this.parseResponse(line.toString())
 			}
 			this.receiveBuffer = this.receiveBuffer.substring(offset)
 		})
