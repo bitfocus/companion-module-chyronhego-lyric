@@ -34,6 +34,8 @@ Refer to Lyric Help for details on creating other message types.
 
 Read (display) the current message to a frame buffer or display.
 
+- **Write Template Data Message**
+
 ### Feedbacks
 
 None

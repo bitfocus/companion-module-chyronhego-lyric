@@ -1,3 +1,5 @@
+import { Buffer } from 'node:buffer'
+
 import { InstanceStatus, TCPHelper } from '@companion-module/base'
 import { cmd, EOL } from './consts.js'
 

@@ -23,7 +23,7 @@ export function parseResponse(msg) {
 		}
 		return false
 	}
-	for (error of errorCodes) {
+	for (const error of errorCodes) {
 		if (msg === error.code) {
 			this.log('warn', `Error returned: ${error.code}: ${error.label}`)
 			this.updateStatus(error.status, error.label)
