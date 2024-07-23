@@ -12,8 +12,11 @@ export const cmd = {
 	setDriveAndMessageDirectory: 'M',
 	resendPrevious: 'Q',
 	updateTabDataField: 'U',
+	updateCurrentTemplate: 'U\\*',
 	control: 'V',
 	read: 'V\\5\\3\\1\\',
+	readUpdateIntelligentInterface: 'V\\5\\13\\1\\',
+	readUpdateExternalControl: 'V\\5\\14\\1\\',
 	writeTabData: 'W',
 	requestExternalUpdate: 'X', //Also R
 	assorted: 'Y', //!!!
@@ -605,6 +608,10 @@ const choices = {
 		{ id: '0', label: 'Read Next (Prebuild)' },
 		{ id: '1', label: 'Read & Display' },
 	],
+	readUpdate: [
+		{ id: cmd.readUpdateIntelligentInterface, label: 'Read & Update All Intelligent Interface Fields' },
+		{ id: cmd.readUpdateExternalControl, label: 'Read & Update External Update Fields' },
+	],
 }
 
 export const actionOptions = {
@@ -641,6 +648,13 @@ export const actionOptions = {
 		choices: choices.displayMode,
 		default: choices.displayMode[1].id,
 	},
+	readUpdate: {
+		id: 'update',
+		label: 'Update Mode',
+		type: 'dropdown',
+		choices: choices.readUpdate,
+		default: choices.readUpdate[0].id,
+	},
 	customMessage: {
 		...textField,
 		label: 'Custom Message',
@@ -663,15 +677,41 @@ export const actionOptions = {
 	},
 	templateData: {
 		...textField,
-		label: 'Templates',
+		label: 'Template Data',
 		id: 'templates',
 		tooltip: 'Can include multiple template fields seperated by \\',
 		default: '',
+	},
+	templateNumber: {
+		...textField,
+		label: 'Template Number',
+		id: 'templateNumber',
+		tooltip: `The number that should be cited here is the field's specific identifying number as set in the Number control, and NOT a value representing the order in which the field was created. In other words, a command for Field 7 should be cite "7" and not the value "2", which specifies the order in which the fields were created.r`,
+		default: '1',
 	},
 	templateInfo: {
 		type: 'static-text',
 		id: 'info',
 		label: 'The following should be noted regarding W commands:',
 		value: `A single-space update within a W command skips a 2D Text Template if and only if Auto-Erase is not enabled in the 2D Text Template dialog box.  The 2D Text Template dialog box is accessed by right-clicking on a 2D Text Template, then selecting Template Properties from the context-sensitive menu. A null update (\\\\) within a W command skips a 2D Text Template, regardless of Auto-Erase setting. If a W command attempts to overwrite a read-only file, an error is returned. When a Template Data Message created using the W command is read, Lyric displays the Message Number of the Template Description Message on the Canvas Title Bar. A Template Data Message can also be created by selectively recording (Ctrl + Record + D) the message from Lyric.`,
+	},
+	updateTemplateInfo: {
+		type: 'static-text',
+		id: 'info',
+		label: 'Note:',
+		value: `The U command is used to update Template data of a single Template in a preexisting Template Data Message.`,
+	},
+	updateCurrentTemplateInfo: {
+		type: 'static-text',
+		id: 'info',
+		label: 'Note:',
+		value: `Although the Lyric interface allows the operator to assign the same value to multiple templates using the Number control, this should be avoided. Assigning the same numerical designation to multiple templates will cause the U/* command not to work correctly. This condition may occur due to manual alteration of field numbers or Lyric numbering new fields following manual deletion and subsequent addition of template fields.`,
+	},
+	messagePath: {
+		...textField,
+		label: 'Message Directory',
+		id: 'msgPath',
+		tooltip: 'ie. C:\\Data\\Messages',
+		default: 'C:\\Data\\Messages',
 	},
 }

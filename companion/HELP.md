@@ -32,9 +32,15 @@ Refer to Lyric Help for details on creating other message types. Text and variab
 
 - **Read Message**
 
-Read (display) the current message to a frame buffer or display.
+- **Read & Update Message**
 
 - **Template Data Message**
+
+- **Update Current Template Data Message**
+
+- **Update Template Data Message**
+
+- **Update Message Path**
 
 ### Feedbacks
 
