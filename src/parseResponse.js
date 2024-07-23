@@ -33,7 +33,7 @@ export function parseResponse(msg) {
 				return
 			}
 		}
-	} else if (msg === '' && msg === ' ') {
+	} else if (msg === '' || msg === ' ') {
 		return
 	} else {
 		const errorMsg = msg.toUpperCase().padStart(8, cmd.pad)
