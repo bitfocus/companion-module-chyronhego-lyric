@@ -1,4 +1,4 @@
-import { errorCodes, loginMsg, msgSuccess } from './consts.js'
+import { cmd, errorCodes, loginMsg, msgSuccess } from './consts.js'
 import { InstanceStatus } from '@companion-module/base'
 
 export function parseResponse(msg) {
@@ -19,12 +19,27 @@ export function parseResponse(msg) {
 		this.log('warn', `Port Already In Use: ${msg}`)
 		return false
 	}
-	const errorMsg = msg.toUpperCase().padStart(8, '0')
+	const errorMsg = msg.toUpperCase().padStart(8, cmd.pad)
 	for (const error of errorCodes) {
 		if (errorMsg === error.code) {
 			this.log('warn', `Error returned: ${error.code}: ${error.label}`)
 			this.updateStatus(error.status, error.label)
 			return undefined
+		}
+	}
+	if (msg.startsWith(cmd.control)) {
+		let response = msg.split(cmd.sep)
+		try {
+			const errorMsg = response[2].toUpperCase().padStart(8, cmd.pad)
+			for (const error of errorCodes) {
+				if (errorMsg === error.code) {
+					this.log('warn', `Error returned: ${msg}: ${error.label}`)
+					this.updateStatus(error.status, error.label)
+					return undefined
+				}
+			}
+		} catch {
+			//this.log('debug', 'V error message: unexpected array length')
 		}
 	}
 	if (msg !== '' && msg !== ' ') {

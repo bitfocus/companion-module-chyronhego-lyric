@@ -1,5 +1,4 @@
 import { Buffer } from 'node:buffer'
-
 import { InstanceStatus, TCPHelper } from '@companion-module/base'
 import { cmd, EOL } from './consts.js'
 
@@ -8,8 +7,8 @@ export function queryOnConnect() {
 		this.log('debug', `queryOnConnect`)
 	}
 	//function to make initial queries and start message command queue
-	this.subscribeActions()
-	this.subscribeFeedbacks()
+	this.subscribeActions() //no callbacks at present
+	this.subscribeFeedbacks() //no callbacks at present
 	this.startKeepAlive()
 }
 
@@ -57,15 +56,10 @@ export function initTCP(host, port) {
 		this.socket.on('connect', () => {
 			this.log('info', `Connected to ${host}:${port}`)
 			this.updateStatus(InstanceStatus.Ok, 'Connected')
-			//this.cmdQueue = []
-			//this.clearToTx = true
 			this.receiveBuffer = Buffer.from('')
 			this.queryOnConnect()
-			//this.clearToTxTimeout()
 		})
 		this.socket.on('data', (chunk) => {
-			//console.log (`Chunk Recieved: ${chunk}`)
-			//this.clearToTxTimeout()
 			let i = 0,
 				line = '',
 				offset = 0

@@ -12,6 +12,7 @@ class Chyron_Lyric extends InstanceBase {
 	constructor(internal) {
 		super(internal)
 		Object.assign(this, { ...config, ...keepAlive, ...response, ...tcp })
+		this.clearToTx = true
 	}
 
 	async init(config) {

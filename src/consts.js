@@ -3,6 +3,7 @@ import { InstanceStatus, Regex } from '@companion-module/base'
 export const EOL = '\r\n'
 export const keep_alive_timeout = 30000
 export const default_port = 23
+export const clearToTxTimeOut = 1000
 
 export const cmd = {
 	ping: 'W\\1002\\6001\\Pinging\\Chyron',
@@ -19,6 +20,7 @@ export const cmd = {
 	assorted: 'Y', //!!!
 	eom: '\\\\',
 	sep: '\\',
+	pad: '0',
 }
 
 export const loginMsg = {
