@@ -16,17 +16,17 @@ Port to connect to Intelligent Interface
 
 - **Keep Alive Message**
 
-Sent after an interval of inactivity to sustain the TCP connection.
+Sent after an interval of inactivity to sustain the TCP connection. There is no standard Keep Alive Message specified in the protocol.
 
 - **Verbose Logging**
 
-Write more to the logs at debug level.
+Write more data to the logs at debug level.
 
 ### Actions
 
 - **Custom Message**
 
-Refer to Lyric Help for details on creating other message types.
+Refer to Lyric Help for details on creating other message types. Text and variables can be combined to create any arbitary message. The module will append the required '\\\\\\r\\n' to the end of the message.
 
 - **Send & Execute Macro**
 
