@@ -37,7 +37,7 @@ export function parseResponse(msg) {
 	const errorMsg = msg.toUpperCase().padStart(8, cmd.pad)
 	for (const error of errorCodes) {
 		if (errorMsg === error.code) {
-			this.log('warn', `Error returned: ${error.code}: ${error.label}`)
+			this.log(error.loglevel, `Error returned: ${error.code}: ${error.label}`)
 			this.updateStatus(error.status, error.label)
 			return undefined
 		}
