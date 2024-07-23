@@ -2,7 +2,7 @@ import { errorCodes, loginMsg, msgSuccess } from './consts.js'
 import { InstanceStatus } from '@companion-module/base'
 
 export function parseResponse(msg) {
-	if (msg === msgSuccess) {
+	if (msg.startsWith(msgSuccess)) {
 		this.updateStatus(InstanceStatus.Ok)
 		if (this.config.verbose) {
 			this.log('debug', `Message Success: ${msg}`)
@@ -11,16 +11,12 @@ export function parseResponse(msg) {
 	}
 	if (msg.startsWith(loginMsg.welcome)) {
 		this.updateStatus(InstanceStatus.Ok, 'Connected')
-		if (this.config.verbose) {
-			this.log('info', `Logged In: ${msg}`)
-		}
+		this.log('info', `Logged In: ${msg}`)
 		return true
 	}
 	if (msg.search(loginMsg.inUse) >= 0) {
 		this.updateStatus(InstanceStatus.ConnectionFailure, 'Port In Use')
-		if (this.config.verbose) {
-			this.log('warn', `Port In Use: ${msg}`)
-		}
+		this.log('warn', `Port Already In Use: ${msg}`)
 		return false
 	}
 	const errorMsg = msg.toUpperCase().padStart(8, '0')

@@ -2,7 +2,7 @@
 
 Control Chyron Hego Lyric with the Intelligent Interface protocol.
 
-Tested against Lyric 8.8.
+Tested against Lyric 8.8 RU2.
 
 ### Config
 
