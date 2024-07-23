@@ -1,7 +1,7 @@
 ## Chyron-Hego Lyric
 
 Control Chyron Hego Lyric with the Intelligent Interface protocol.
-'
+
 Tested against Lyric 8.8.
 
 ### Config
@@ -34,7 +34,7 @@ Refer to Lyric Help for details on creating other message types.
 
 Read (display) the current message to a frame buffer or display.
 
-- **Write Template Data Message**
+- **Template Data Message**
 
 ### Feedbacks
 

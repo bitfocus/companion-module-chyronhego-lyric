@@ -1,5 +1,5 @@
 {
-	"name": "chyron-hego-intelligent-interface",
+	"name": "chyron-hego-lyric",
 	"version": "0.1.0",
 	"type": "module",
 	"main": "src/main.js",

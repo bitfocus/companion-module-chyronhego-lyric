@@ -30,5 +30,24 @@ export async function UpdateActions(self) {
 			self.sendCommand(msg)
 		},
 	}
+	actionDefinitions['templateDataMessage'] = {
+		name: 'Template Data Message',
+		options: [
+			actionOptions.templateDataMessage,
+			actionOptions.lyricMessage,
+			actionOptions.templateData,
+			actionOptions.templateInfo,
+		],
+		callback: async ({ options }) => {
+			const templateNumber = parseInt(await self.parseVariablesInString(options.templateDataMessage))
+			const lyricMsg = parseInt(await self.parseVariablesInString(options.lyricMessageNumber))
+			const templateData = await self.parseVariablesInString(options.templates)
+			if (isNaN(templateNumber) || templateNumber < 0 || isNaN(lyricMsg) || lyricMsg < 0) {
+				self.log('warn', `Invalid template Number: ${templateNumber} or Lyric Message Number: ${lyricMsg}`)
+				return undefined
+			}
+			self.sendCommand(cmd.writeTabData + cmd.sep + templateNumber + cmd.sep + lyricMsg + cmd.sep + templateData)
+		},
+	}
 	self.setActionDefinitions(actionDefinitions)
 }

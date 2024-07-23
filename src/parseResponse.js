@@ -23,14 +23,17 @@ export function parseResponse(msg) {
 		}
 		return false
 	}
+	const errorMsg = msg.toUpperCase().padStart(8, '0')
 	for (const error of errorCodes) {
-		if (msg === error.code) {
+		if (errorMsg === error.code) {
 			this.log('warn', `Error returned: ${error.code}: ${error.label}`)
 			this.updateStatus(error.status, error.label)
 			return undefined
 		}
 	}
-	this.updateStatus(InstanceStatus.UnknownWarning, 'Unexpected Response')
-	this.log('warn', `Unexpected Response: ${msg}`)
-	return undefined
+	if (msg !== '' && msg !== ' ') {
+		this.updateStatus(InstanceStatus.UnknownWarning, 'Unexpected Response')
+		this.log('warn', `Unexpected Response: ${msg}`)
+		return undefined
+	}
 }

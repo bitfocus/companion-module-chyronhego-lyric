@@ -1,7 +1,7 @@
 {
-	"id": "chyron-hego-intelligent-interface",
-	"name": "chyron-hego-intelligent-interface",
-	"shortname": "Chyron-Hego II",
+	"id": "chyron-hego-lyric",
+	"name": "chyron-hego-lyric",
+	"shortname": "Lyric",
 	"description": "Intelligent Interface for Lyric",
 	"version": "0.0.0",
 	"license": "MIT",
