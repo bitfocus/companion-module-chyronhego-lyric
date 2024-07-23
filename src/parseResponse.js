@@ -7,15 +7,15 @@ export function parseResponse(msg) {
 		if (this.config.verbose) {
 			this.log('debug', `Message Success: ${msg}`)
 		}
-		return true
+		return
 	} else if (msg.startsWith(loginMsg.welcome)) {
 		this.updateStatus(InstanceStatus.Ok, 'Connected')
 		this.log('info', `Logged In: ${msg}`)
-		return true
+		return
 	} else if (msg.search(loginMsg.inUse) >= 0) {
 		this.updateStatus(InstanceStatus.ConnectionFailure, 'Port In Use')
 		this.log('warn', `Port Already In Use: ${msg}`)
-		return false
+		return
 	} else if (msg.startsWith(cmd.control)) {
 		let response = msg.split(cmd.sep)
 		try {
@@ -24,27 +24,28 @@ export function parseResponse(msg) {
 				if (errorMsg === error.code) {
 					this.log('warn', `Error returned: ${msg}: ${error.label}`)
 					this.updateStatus(error.status, error.label)
-					return undefined
+					return
 				}
 			}
 		} catch {
 			if (this.config.verbose) {
 				this.log('debug', `Control error message - unexpected array length: ${response.length} from ${msg}`)
-				return undefined
+				return
 			}
 		}
-	}
-	const errorMsg = msg.toUpperCase().padStart(8, cmd.pad)
-	for (const error of errorCodes) {
-		if (errorMsg === error.code) {
-			this.log(error.loglevel, `Error returned: ${error.code}: ${error.label}`)
-			this.updateStatus(error.status, error.label)
-			return undefined
+	} else if (msg === '' && msg === ' ') {
+		return
+	} else {
+		const errorMsg = msg.toUpperCase().padStart(8, cmd.pad)
+		for (const error of errorCodes) {
+			if (errorMsg === error.code) {
+				this.log(error.loglevel, `Error returned: ${error.code}: ${error.label}`)
+				this.updateStatus(error.status, error.label)
+				return
+			}
 		}
-	}
-	if (msg !== '' && msg !== ' ') {
 		this.updateStatus(InstanceStatus.UnknownWarning, 'Unexpected Response')
 		this.log('warn', `Unexpected Response: ${msg}`)
-		return undefined
+		return
 	}
 }
