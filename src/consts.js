@@ -416,7 +416,7 @@ export const actionOptions = {
 	templateInfo: {
 		type: 'static-text',
 		id: 'info',
-		label: '',
-		value: `The following should be noted regarding W commands: A single-space update within a W command skips a 2D Text Template if and only if Auto-Erase is not enabled in the 2D Text Template dialog box.  The 2D Text Template dialog box is accessed by right-clicking on a 2D Text Template, then selecting Template Properties from the context-sensitive menu. A null update (\\\\) within a W command skips a 2D Text Template, regardless of Auto-Erase setting. If a W command attempts to overwrite a read-only file, an error is returned. When a Template Data Message created using the W command is read, Lyric displays the Message Number of the Template Description Message on the Canvas Title Bar. A Template Data Message can also be created by selectively recording (Ctrl + Record + D) the message from Lyric.`,
+		label: 'The following should be noted regarding W commands:',
+		value: `A single-space update within a W command skips a 2D Text Template if and only if Auto-Erase is not enabled in the 2D Text Template dialog box.  The 2D Text Template dialog box is accessed by right-clicking on a 2D Text Template, then selecting Template Properties from the context-sensitive menu. A null update (\\\\) within a W command skips a 2D Text Template, regardless of Auto-Erase setting. If a W command attempts to overwrite a read-only file, an error is returned. When a Template Data Message created using the W command is read, Lyric displays the Message Number of the Template Description Message on the Canvas Title Bar. A Template Data Message can also be created by selectively recording (Ctrl + Record + D) the message from Lyric.`,
 	},
 }
