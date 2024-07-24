@@ -71,20 +71,25 @@ export async function UpdateActions(self) {
 	actionDefinitions['updateTemplateData'] = {
 		name: 'Update Template Data Message',
 		options: [
-			actionOptions.lyricMessage,
+			actionOptions.templateDataMessage,
 			actionOptions.templateNumber,
 			actionOptions.templateData,
 			actionOptions.updateTemplateInfo,
 		],
 		callback: async ({ options }) => {
+			const templateDataMsg = parseInt(await self.parseVariablesInString(options.templateDataMessage))
 			const templateNumber = parseInt(await self.parseVariablesInString(options.templateNumber))
-			const lyricMsg = parseInt(await self.parseVariablesInString(options.lyricMessageNumber))
 			const templateData = await self.parseVariablesInString(options.templates)
-			if (isNaN(templateNumber) || templateNumber < 0 || isNaN(lyricMsg) || lyricMsg < 0) {
-				self.log('warn', `Invalid Template Number: ${templateNumber} or Lyric Message Number: ${lyricMsg}`)
+			if (isNaN(templateNumber) || templateNumber < 0 || isNaN(templateDataMsg) || templateDataMsg < 0) {
+				self.log(
+					'warn',
+					`Invalid Template Number: ${templateNumber} or Templdate Data Message Number: ${templateDataMsg}`
+				)
 				return undefined
 			}
-			self.sendCommand(cmd.updateTabDataField + cmd.sep + lyricMsg + cmd.sep + templateNumber + cmd.sep + templateData)
+			self.sendCommand(
+				cmd.updateTabDataField + cmd.sep + templateDataMsg + cmd.sep + templateNumber + cmd.sep + templateData
+			)
 		},
 	}
 	actionDefinitions['updateCurrentTemplateData'] = {
@@ -93,7 +98,7 @@ export async function UpdateActions(self) {
 			actionOptions.templateDataMessage,
 			actionOptions.templateNumber,
 			actionOptions.templateData,
-			actionOptions.updateTemplateInfo,
+			actionOptions.updateCurrentTemplateInfo,
 		],
 		callback: async ({ options }) => {
 			const templateDataMsg = parseInt(await self.parseVariablesInString(options.templateDataMessage))

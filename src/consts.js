@@ -711,7 +711,8 @@ export const actionOptions = {
 		...textField,
 		label: 'Message Directory',
 		id: 'msgPath',
-		tooltip: 'ie. C:\\Data\\Messages',
+		tooltip:
+			'If a colon ( : ) is to be used in the file path information, you may use back slashes ( \\ ), but if using forward slashes ( / ), do not include a colon with the drive letter. ',
 		default: 'C:\\Data\\Messages',
 	},
 }
