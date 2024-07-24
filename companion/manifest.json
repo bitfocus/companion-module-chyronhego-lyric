@@ -1,12 +1,12 @@
 {
-	"id": "chyron-hego-lyric",
-	"name": "chyron-hego-lyric",
+	"id": "chyronhego-lyric",
+	"name": "chyronhego-lyric",
 	"shortname": "Lyric",
 	"description": "Intelligent Interface for Lyric",
 	"version": "0.0.0",
 	"license": "MIT",
-	"repository": "git+https://github.com/phillipivan/companion-module-chyron-hego-intelligent-interface.git",
-	"bugs": "https://github.com/phillipivan/companion-module-chyron-hego-intelligent-interface/issues",
+	"repository": "git+https://github.com/bitfocus/companion-module-chyronhego-lyric.git",
+	"bugs": "https://github.com/bitfocus/companion-module-chyronhego-lyric/issues",
 	"maintainers": [
 		{
 			"name": "Phillip Ivan Pietruschka",
