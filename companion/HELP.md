@@ -1,6 +1,6 @@
-## Chyron-Hego Lyric
+## ChyronHego Lyric
 
-Control Chyron Hego Lyric with the Intelligent Interface protocol.
+Control ChyronHego Lyric with the Intelligent Interface protocol.
 
 Tested against Lyric 8.8 RU2.
 
@@ -16,7 +16,7 @@ Port to connect to Intelligent Interface
 
 - **Keep Alive Message**
 
-Sent after an interval of inactivity to sustain the TCP connection. There is no standard Keep Alive Message specified in the protocol.
+Sent after an interval of inactivity to sustain the TCP connection. There is no standard Keep Alive message specified in the protocol.
 
 - **Verbose Logging**
 
