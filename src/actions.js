@@ -73,13 +73,13 @@ export async function UpdateActions(self) {
 		options: [
 			actionOptions.templateDataMessage,
 			actionOptions.templateNumber,
-			actionOptions.templateData,
+			actionOptions.templateDataSingle,
 			actionOptions.updateTemplateInfo,
 		],
 		callback: async ({ options }) => {
 			const templateDataMsg = parseInt(await self.parseVariablesInString(options.templateDataMessage))
 			const templateNumber = parseInt(await self.parseVariablesInString(options.templateNumber))
-			const templateData = await self.parseVariablesInString(options.templates)
+			const templateData = await self.parseVariablesInString(options.templatesData)
 			if (isNaN(templateNumber) || templateNumber < 0 || isNaN(templateDataMsg) || templateDataMsg < 0) {
 				self.log(
 					'warn',
@@ -97,13 +97,13 @@ export async function UpdateActions(self) {
 		options: [
 			actionOptions.templateDataMessage,
 			actionOptions.templateNumber,
-			actionOptions.templateData,
+			actionOptions.templateDataSingle,
 			actionOptions.updateCurrentTemplateInfo,
 		],
 		callback: async ({ options }) => {
 			const templateDataMsg = parseInt(await self.parseVariablesInString(options.templateDataMessage))
 			const templateNumber = parseInt(await self.parseVariablesInString(options.templateNumber))
-			const templateData = await self.parseVariablesInString(options.templates)
+			const templateData = await self.parseVariablesInString(options.templatesData)
 			if (isNaN(templateNumber) || templateNumber < 0 || isNaN(templateDataMsg) || templateDataMsg < 0) {
 				self.log(
 					'warn',

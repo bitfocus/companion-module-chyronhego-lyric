@@ -682,6 +682,13 @@ export const actionOptions = {
 		tooltip: 'Can include multiple template fields seperated by \\',
 		default: '',
 	},
+	templateDataSingle: {
+		...textField,
+		label: 'Template Data',
+		id: 'templatesData',
+		tooltip: 'Data that is to be fed to specified Template',
+		default: '',
+	},
 	templateNumber: {
 		...textField,
 		label: 'Template Number',
