@@ -1,5 +1,5 @@
 {
-	"name": "chyron-hego-lyric",
+	"name": "chyronhego-lyric",
 	"version": "1.0.0",
 	"type": "module",
 	"main": "src/main.js",
@@ -10,7 +10,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/phillipivan/companion-module-chyron-hego-intelligent-interface.git"
+		"url": "git+https://github.com/bitfocus/companion-module-chyronhego-lyric.git"
 	},
 	"dependencies": {
 		"@companion-module/base": "~1.8.0"
