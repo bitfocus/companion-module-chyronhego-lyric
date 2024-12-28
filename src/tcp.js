@@ -12,21 +12,20 @@ export function queryOnConnect() {
 	this.startKeepAlive()
 }
 
-export function sendCommand(msg) {
-	if (msg !== undefined) {
+export async function sendCommand(msg = this.config.keepAlive) {
+	return await this.queue.add(async () => {
 		if (this.socket !== undefined && this.socket.isConnected) {
 			if (this.config.verbose) {
 				this.log('debug', `Sending message: ${msg}`)
 			}
-			this.socket.send(msg + cmd.eom + EOL)
-			this.startKeepAlive()
+			const msgSuccess = await this.socket.send(msg + cmd.eom + EOL)
+			if (msgSuccess) this.startKeepAlive()
+			return msgSuccess
 		} else {
 			this.log('warn', `sendCommand: Socket not connected, tried to send: ${msg}`)
 		}
-	} else {
-		this.log('warn', 'sendCommand: Command undefined')
-	}
-	return undefined
+		return undefined
+	})
 }
 
 export function initTCP(host, port) {
@@ -40,22 +39,19 @@ export function initTCP(host, port) {
 	}
 	if (host !== undefined && !isNaN(port)) {
 		if (this.config.verbose) {
-			this.log('debug', 'Creating New Socket')
+			this.log('debug', `Creating New Socket to ${host}:${port}`)
 		}
-		this.updateStatus(InstanceStatus.Connecting, `Connecting to Lyric: ${host}:${port}`)
+		this.checkStatus(InstanceStatus.Connecting, `Connecting to Lyric: ${host}:${port}`)
 		this.socket = new TCPHelper(host, port)
 
 		this.socket.on('status_change', (status, message) => {
-			this.updateStatus(status, message)
+			this.checkStatus(status, message)
 		})
 		this.socket.on('error', (err) => {
 			this.log('error', `Network error: ${err.message}`)
-			this.updateStatus(InstanceStatus.ConnectionFailure, err.message)
-			this.cmdQueue = []
 		})
 		this.socket.on('connect', () => {
 			this.log('info', `Connected to ${host}:${port}`)
-			this.updateStatus(InstanceStatus.Ok, 'Connected')
 			this.receiveBuffer = Buffer.from('')
 			this.queryOnConnect()
 		})
@@ -72,6 +68,6 @@ export function initTCP(host, port) {
 			this.receiveBuffer = this.receiveBuffer.substring(offset)
 		})
 	} else {
-		this.updateStatus(InstanceStatus.BadConfig)
+		this.checkStatus(InstanceStatus.BadConfig, `Invalid host (${host}) or port (${port})`)
 	}
 }

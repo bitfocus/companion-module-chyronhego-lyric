@@ -7,7 +7,7 @@ export async function UpdateActions(self) {
 		options: [actionOptions.macro, actionOptions.macroInfo],
 		callback: async ({ options }) => {
 			const macro = await self.parseVariablesInString(options.macro)
-			self.sendCommand(cmd.macro + cmd.sep + macro)
+			return await self.sendCommand(cmd.macro + cmd.sep + macro)
 		},
 	}
 	actionDefinitions['readMessage'] = {
@@ -19,7 +19,7 @@ export async function UpdateActions(self) {
 				self.log('warn', `Invalid Message Number ${msg} From: ${options.message}`)
 				return undefined
 			}
-			self.sendCommand(cmd.read + options.buffer + cmd.sep + msg + cmd.sep + options.mode)
+			return await self.sendCommand(cmd.read + options.buffer + cmd.sep + msg + cmd.sep + options.mode)
 		},
 	}
 	actionDefinitions['readUpdateMessage'] = {
@@ -38,7 +38,9 @@ export async function UpdateActions(self) {
 				self.log('warn', `Invalid Message Number ${msg} From: ${options.message}`)
 				return undefined
 			}
-			self.sendCommand(options.update + options.buffer + cmd.sep + msg + cmd.sep + options.mode + cmd.sep + data)
+			return await self.sendCommand(
+				options.update + options.buffer + cmd.sep + msg + cmd.sep + options.mode + cmd.sep + data,
+			)
 		},
 	}
 	actionDefinitions['customMessage'] = {
@@ -46,7 +48,7 @@ export async function UpdateActions(self) {
 		options: [actionOptions.customMessage],
 		callback: async ({ options }) => {
 			const msg = await self.parseVariablesInString(options.message)
-			self.sendCommand(msg)
+			return await self.sendCommand(msg)
 		},
 	}
 	actionDefinitions['templateDataMessage'] = {
@@ -65,7 +67,9 @@ export async function UpdateActions(self) {
 				self.log('warn', `Invalid Template Number: ${templateNumber} or Lyric Message Number: ${lyricMsg}`)
 				return undefined
 			}
-			self.sendCommand(cmd.writeTabData + cmd.sep + templateNumber + cmd.sep + lyricMsg + cmd.sep + templateData)
+			return await self.sendCommand(
+				cmd.writeTabData + cmd.sep + templateNumber + cmd.sep + lyricMsg + cmd.sep + templateData,
+			)
 		},
 	}
 	actionDefinitions['updateTemplateData'] = {
@@ -83,12 +87,12 @@ export async function UpdateActions(self) {
 			if (isNaN(templateNumber) || templateNumber < 0 || isNaN(templateDataMsg) || templateDataMsg < 0) {
 				self.log(
 					'warn',
-					`Invalid Template Number: ${templateNumber} or Templdate Data Message Number: ${templateDataMsg}`
+					`Invalid Template Number: ${templateNumber} or Templdate Data Message Number: ${templateDataMsg}`,
 				)
 				return undefined
 			}
-			self.sendCommand(
-				cmd.updateTabDataField + cmd.sep + templateDataMsg + cmd.sep + templateNumber + cmd.sep + templateData
+			return await self.sendCommand(
+				cmd.updateTabDataField + cmd.sep + templateDataMsg + cmd.sep + templateNumber + cmd.sep + templateData,
 			)
 		},
 	}
@@ -107,12 +111,12 @@ export async function UpdateActions(self) {
 			if (isNaN(templateNumber) || templateNumber < 0 || isNaN(templateDataMsg) || templateDataMsg < 0) {
 				self.log(
 					'warn',
-					`Invalid Template Number: ${templateNumber} or Template Data Message Number: ${templateDataMsg}`
+					`Invalid Template Number: ${templateNumber} or Template Data Message Number: ${templateDataMsg}`,
 				)
 				return undefined
 			}
-			self.sendCommand(
-				cmd.updateCurrentTemplate + cmd.sep + templateDataMsg + cmd.sep + templateNumber + cmd.sep + templateData
+			return await self.sendCommand(
+				cmd.updateCurrentTemplate + cmd.sep + templateDataMsg + cmd.sep + templateNumber + cmd.sep + templateData,
 			)
 		},
 	}
@@ -120,7 +124,9 @@ export async function UpdateActions(self) {
 		name: 'Update Message Path',
 		options: [actionOptions.messagePath],
 		callback: async ({ options }) => {
-			self.sendCommand(cmd.setDriveAndMessageDirectory + cmd.sep + (await self.parseVariablesInString(options.msgPath)))
+			return await self.sendCommand(
+				cmd.setDriveAndMessageDirectory + cmd.sep + (await self.parseVariablesInString(options.msgPath)),
+			)
 		},
 	}
 	self.setActionDefinitions(actionDefinitions)

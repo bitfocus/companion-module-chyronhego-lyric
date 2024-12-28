@@ -17,5 +17,5 @@ export function stopKeepAlive() {
 }
 
 export function keepAlive() {
-	this.sendCommand(this.config.keepAlive)
+	this.sendCommand(this.config.keepAlive).catch(() => {})
 }
