@@ -3,17 +3,17 @@ import { InstanceStatus } from '@companion-module/base'
 
 export function parseResponse(msg) {
 	if (msg.startsWith(msgSuccess)) {
-		this.updateStatus(InstanceStatus.Ok)
+		this.checkStatus(InstanceStatus.Ok)
 		if (this.config.verbose) {
 			this.log('debug', `Message Success: ${msg}`)
 		}
 		return
 	} else if (msg.startsWith(loginMsg.welcome)) {
-		this.updateStatus(InstanceStatus.Ok, 'Connected')
+		this.checkStatus(InstanceStatus.Ok, 'Connected')
 		this.log('info', `Logged In: ${msg}`)
 		return
 	} else if (msg.search(loginMsg.inUse) >= 0) {
-		this.updateStatus(InstanceStatus.ConnectionFailure, 'Port In Use')
+		this.checkStatus(InstanceStatus.ConnectionFailure, 'Port In Use')
 		this.log('warn', `Port Already In Use: ${msg}`)
 		return
 	} else if (msg.startsWith(cmd.control)) {
@@ -23,7 +23,7 @@ export function parseResponse(msg) {
 			for (const error of errorCodes) {
 				if (errorMsg === error.code) {
 					this.log('warn', `Error returned: ${msg}: ${error.label}`)
-					this.updateStatus(error.status, error.label)
+					this.checkStatus(error.status, error.label)
 					return
 				}
 			}
@@ -40,11 +40,11 @@ export function parseResponse(msg) {
 		for (const error of errorCodes) {
 			if (errorMsg === error.code) {
 				this.log(error.loglevel, `Error returned: ${error.code}: ${error.label}`)
-				this.updateStatus(error.status, error.label)
+				this.checkStatus(error.status, error.label)
 				return
 			}
 		}
-		this.updateStatus(InstanceStatus.UnknownWarning, 'Unexpected Response')
+		this.checkStatus(InstanceStatus.UnknownWarning, 'Unexpected Response')
 		this.log('warn', `Unexpected Response: ${msg}`)
 		return
 	}

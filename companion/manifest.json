@@ -14,13 +14,13 @@
 		}
 	],
 	"runtime": {
-		"type": "node18",
+		"type": "node22",
 		"api": "nodejs-ipc",
 		"apiVersion": "0.0.0",
 		"entrypoint": "../src/main.js"
 	},
 	"legacyIds": [],
-	"manufacturer": "Chyron-Hego",
+	"manufacturer": "ChyronHego",
 	"products": ["Lyric"],
 	"keywords": ["Intelligent Interface", "CG"]
 }
