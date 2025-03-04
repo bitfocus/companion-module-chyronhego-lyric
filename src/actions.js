@@ -5,16 +5,16 @@ export async function UpdateActions(self) {
 	actionDefinitions['sendMacro'] = {
 		name: 'Send and Execute Macro',
 		options: [actionOptions.macro, actionOptions.macroInfo],
-		callback: async ({ options }) => {
-			const macro = await self.parseVariablesInString(options.macro)
+		callback: async ({ options }, context) => {
+			const macro = await context.parseVariablesInString(options.macro)
 			return await self.sendCommand(cmd.macro + cmd.sep + macro)
 		},
 	}
 	actionDefinitions['readMessage'] = {
 		name: 'Read Message',
 		options: [actionOptions.readBuffer, actionOptions.readMessage, actionOptions.readDisplayMode],
-		callback: async ({ options }) => {
-			const msg = parseInt(await self.parseVariablesInString(options.message))
+		callback: async ({ options }, context) => {
+			const msg = parseInt(await context.parseVariablesInString(options.message))
 			if (isNaN(msg) || msg < 0) {
 				self.log('warn', `Invalid Message Number ${msg} From: ${options.message}`)
 				return undefined
@@ -31,9 +31,9 @@ export async function UpdateActions(self) {
 			actionOptions.readDisplayMode,
 			actionOptions.templateData,
 		],
-		callback: async ({ options }) => {
-			const msg = parseInt(await self.parseVariablesInString(options.message))
-			const data = await self.parseVariablesInString(options.templates)
+		callback: async ({ options }, context) => {
+			const msg = parseInt(await context.parseVariablesInString(options.message))
+			const data = await context.parseVariablesInString(options.templates)
 			if (isNaN(msg) || msg < 0) {
 				self.log('warn', `Invalid Message Number ${msg} From: ${options.message}`)
 				return undefined
@@ -46,8 +46,8 @@ export async function UpdateActions(self) {
 	actionDefinitions['customMessage'] = {
 		name: 'Custom Message',
 		options: [actionOptions.customMessage],
-		callback: async ({ options }) => {
-			const msg = await self.parseVariablesInString(options.message)
+		callback: async ({ options }, context) => {
+			const msg = await context.parseVariablesInString(options.message)
 			return await self.sendCommand(msg)
 		},
 	}
@@ -59,10 +59,10 @@ export async function UpdateActions(self) {
 			actionOptions.templateData,
 			actionOptions.templateInfo,
 		],
-		callback: async ({ options }) => {
-			const templateNumber = parseInt(await self.parseVariablesInString(options.templateDataMessage))
-			const lyricMsg = parseInt(await self.parseVariablesInString(options.lyricMessageNumber))
-			const templateData = await self.parseVariablesInString(options.templates)
+		callback: async ({ options }, context) => {
+			const templateNumber = parseInt(await context.parseVariablesInString(options.templateDataMessage))
+			const lyricMsg = parseInt(await context.parseVariablesInString(options.lyricMessageNumber))
+			const templateData = await context.parseVariablesInString(options.templates)
 			if (isNaN(templateNumber) || templateNumber < 0 || isNaN(lyricMsg) || lyricMsg < 0) {
 				self.log('warn', `Invalid Template Number: ${templateNumber} or Lyric Message Number: ${lyricMsg}`)
 				return undefined
@@ -80,10 +80,10 @@ export async function UpdateActions(self) {
 			actionOptions.templateDataSingle,
 			actionOptions.updateTemplateInfo,
 		],
-		callback: async ({ options }) => {
-			const templateDataMsg = parseInt(await self.parseVariablesInString(options.templateDataMessage))
-			const templateNumber = parseInt(await self.parseVariablesInString(options.templateNumber))
-			const templateData = await self.parseVariablesInString(options.templatesData)
+		callback: async ({ options }, context) => {
+			const templateDataMsg = parseInt(await context.parseVariablesInString(options.templateDataMessage))
+			const templateNumber = parseInt(await context.parseVariablesInString(options.templateNumber))
+			const templateData = await context.parseVariablesInString(options.templatesData)
 			if (isNaN(templateNumber) || templateNumber < 0 || isNaN(templateDataMsg) || templateDataMsg < 0) {
 				self.log(
 					'warn',
@@ -104,10 +104,10 @@ export async function UpdateActions(self) {
 			actionOptions.templateDataSingle,
 			actionOptions.updateCurrentTemplateInfo,
 		],
-		callback: async ({ options }) => {
-			const templateDataMsg = parseInt(await self.parseVariablesInString(options.templateDataMessage))
-			const templateNumber = parseInt(await self.parseVariablesInString(options.templateNumber))
-			const templateData = await self.parseVariablesInString(options.templatesData)
+		callback: async ({ options }, context) => {
+			const templateDataMsg = parseInt(await context.parseVariablesInString(options.templateDataMessage))
+			const templateNumber = parseInt(await context.parseVariablesInString(options.templateNumber))
+			const templateData = await context.parseVariablesInString(options.templatesData)
 			if (isNaN(templateNumber) || templateNumber < 0 || isNaN(templateDataMsg) || templateDataMsg < 0) {
 				self.log(
 					'warn',
@@ -123,9 +123,9 @@ export async function UpdateActions(self) {
 	actionDefinitions['updateMessagePath'] = {
 		name: 'Update Message Path',
 		options: [actionOptions.messagePath],
-		callback: async ({ options }) => {
+		callback: async ({ options }, context) => {
 			return await self.sendCommand(
-				cmd.setDriveAndMessageDirectory + cmd.sep + (await self.parseVariablesInString(options.msgPath)),
+				cmd.setDriveAndMessageDirectory + cmd.sep + (await context.parseVariablesInString(options.msgPath)),
 			)
 		},
 	}
