@@ -593,7 +593,7 @@ export const errorCodes = [
 
 const textField = {
 	type: 'textinput',
-	useVariables: true,
+	useVariables: { local: true },
 	default: '',
 	regex: Regex.SOMETHING,
 }
