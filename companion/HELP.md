@@ -24,9 +24,11 @@ Write more data to the logs at debug level.
 
 ### Actions
 
+Any action option can be set with an expression. Lyric Message Number, Template Data Message and Template Number take whole numbers.
+
 - **Custom Message**
 
-Refer to Lyric Help for details on creating other message types. Text and variables can be combined to create any arbitary message. The module will append the required '\\\\\\r\\n' to the end of the message.
+Refer to Lyric Help for details on creating other message types. Text and variables can be combined to create any arbitrary message. The module will append the required '\\\\\\r\\n' to the end of the message.
 
 - **Send & Execute Macro**
 
@@ -49,18 +51,3 @@ None
 ### Variables
 
 None
-
-### Version History
-
-- **1.0.0**
-
-Initial Release
-
-- **1.0.1**
-
-Add outbound message queue
-Avoid unnecessary status updates
-Support consecutive actions
-Use Node 22
-Use Yarn 4.5
-Update Dependencies
